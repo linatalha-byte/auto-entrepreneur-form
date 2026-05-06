@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clé Pro Conseil - Inscription Chauffeur Taxi</title>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      min-height: 100vh; padding: 20px;
+      color: #1e3a5f;
+    }
+    .container { max-width: 600px; margin: 0 auto; }
+    .header { text-align: center; margin-bottom: 24px; }
+    .logo { width: 80px; height: 80px; border-radius: 50%; margin-bottom: 12px; box-shadow: 0 4px 12px rgba(30,58,95,0.2); }
+    .header h1 { color: #1e3a5f; font-size: 26px; font-weight: 700; margin-bottom: 4px; letter-spacing: -0.5px; }
+    .header .subtitle { color: #64748b; font-size: 15px; font-weight: 500; }
+    .intro-card {
+      background: linear-gradient(135deg, #1e3a5f 0%, #2c5282 100%);
+      color: white; padding: 24px; border-radius: 14px; margin-bottom: 20px;
+      box-shadow: 0 8px 20px rgba(30,58,95,0.25);
+    }
+    .intro-card h2 { font-size: 20px; margin-bottom: 12px; font-weight: 600; }
+    .intro-card p { font-size: 14px; line-height: 1.6; opacity: 0.95; margin-bottom: 8px; }
+    .intro-card .highlight { background: rgba(255,255,255,0.15); padding: 12px; border-radius: 8px; margin-top: 12px; font-size: 13px; }
+    .card { background: white; border-radius: 14px; padding: 28px; box-shadow: 0 6px 20px rgba(0,0,0,0.06); }
+    .progress { display: flex; gap: 6px; margin-bottom: 12px; }
+    .progress-bar { flex: 1; height: 6px; background: #e2e8f0; border-radius: 3px; transition: 0.3s; }
+    .progress-bar.active { background: #1e3a5f; }
+    .progress-text { text-align: center; font-size: 12px; color: #64748b; margin-bottom: 24px; font-weight: 500; }
+    h2.step-title { color: #1e3a5f; font-size: 20px; margin-bottom: 6px; font-weight: 600; }
+    .step-desc { color: #64748b; font-size: 13px; margin-bottom: 20px; }
+    .step-info {
+      background: #fef3c7; border-left: 4px solid #f59e0b;
+      padding: 12px 14px; border-radius: 6px; margin-bottom: 20px;
+      font-size: 13px; color: #78350f; line-height: 1.5;
+    }
+    .field { margin-bottom: 16px; }
+    .field label {
+      display: block; font-size: 13px; font-weight: 600;
+      color: #334155; margin-bottom: 6px;
+    }
+    .field label .required { color: #dc2626; }
+    .field input, .field select, .field textarea {
+      width: 100%; padding: 11px 14px; border: 1.5px solid #e2e8f0;
+      border-radius: 8px; font-size: 14px; transition: 0.2s;
+      background: white; color: #1e293b;
+    }
+    .field input:focus, .field select:focus, .field textarea:focus {
+      outline: none; border-color: #1e3a5f;
+      box-shadow: 0 0 0 3px rgba(30,58,95,0.1);
+    }
+    .field input.error, .field select.error { border-color: #dc2626; background: #fef2f2; }
+    .error-msg { color: #dc2626; font-size: 12px; margin-top: 4px; font-weight: 500; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .row-3 { display: grid; grid-template-columns: 1fr 2fr; gap: 12px; }
+    .upload-zone {
+      border: 2px dashed #cbd5e0; border-radius: 8px;
+      padding: 22px; text-align: center; cursor: pointer;
+      transition: 0.2s; background: #fafbfc;
+    }
+    .upload-zone:hover { border-color: #1e3a5f; background: #f0f4f8; }
+    .upload-zone.has-file { border-color: #16a34a; background: #f0fdf4; border-style: solid; }
+    .upload-zone.error { border-color: #dc2626; background: #fef2f2; }
+    .upload-icon { font-size: 26px; margin-bottom: 6px; }
+    .upload-text { font-size: 13px; color: #475569; font-weight: 500; }
+    .password-wrapper { position: relative; }
+    .password-wrapper input { padding-right: 40px; }
+    .toggle-password {
+      position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+      background: none; border: none; cursor: pointer; color: #64748b; font-size: 16px;
+    }
+    .buttons {
+      display: flex; justify-content: space-between; gap: 10px;
+      margin-top: 28px; padding-top: 20px; border-top: 1px solid #e2e8f0;
+    }
+    button {
+      padding: 11px 22px; border-radius: 8px; font-size: 14px;
+      font-weight: 600; cursor: pointer; transition: 0.2s; border: none;
+    }
+    .btn-prev { background: white; border: 1.5px solid #cbd5e0; color: #475569; }
+    .btn-prev:hover:not(:disabled) { background: #f1f5f9; }
+    .btn-next { background: #1e3a5f; color: white; }
+    .btn-next:hover:not(:disabled) { background: #2c5282; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(30,58,95,0.3); }
+    .btn-submit { background: #16a34a; color: white; }
+    .btn-submit:hover:not(:disabled) { background: #15803d; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(22,163,74,0.3); }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    .alert { padding: 14px; border-radius: 8px; margin-bottom: 18px; font-size: 14px; font-weight: 500; }
+    .alert-success { background: #f0fdf4; border: 1px solid #86efac; color: #166534; }
+    .alert-error { background: #fef2f2; border: 1px solid #fca5a5; color: #991b1b; }
+    .summary {
+      background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
+      padding: 16px; border-radius: 8px; margin-top: 20px;
+    }
+    .summary h3 { font-size: 14px; color: #1e3a5f; margin-bottom: 8px; font-weight: 600; }
+    .summary ul { list-style: none; font-size: 13px; color: #334155; }
+    .summary li { padding: 3px 0; }
+    .footer { text-align: center; color: #64748b; font-size: 11px; margin-top: 18px; line-height: 1.5; }
+    .footer strong { color: #1e3a5f; }
+    .hidden { display: none; }
+    @media (max-width: 480px) {
+      .row { grid-template-columns: 1fr; }
+      .row-3 { grid-template-columns: 1fr; }
+      .header h1 { font-size: 22px; }
+      .card { padding: 20px; }
+      .intro-card { padding: 18px; }
+      .intro-card h2 { font-size: 17px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="data:image/jpeg;base64,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" alt="Logo Clé Pro Conseil" class="logo">
+      <h1>Clé Pro Conseil</h1>
+      <p class="subtitle">Cabinet de gestion d'affaires</p>
+    </div>
+
+    <div class="intro-card">
+      <h2>👋 Bienvenue chauffeur !</h2>
+      <p>Vous avez été désigné par <strong>M. BEN OMRANE Zouhir</strong> et <strong>M. GAMDOU Nizar</strong> pour la prise en charge de votre dossier en tant que chauffeur de taxi.</p>
+      <p>Notre cabinet <strong>Clé Pro Conseil</strong>, spécialisé dans la gestion d'affaires des entreprises, s'occupe de la création et du suivi de votre statut auto-entrepreneur.</p>
+      <div class="highlight">
+        📋 Merci de remplir ce formulaire avec attention. Toutes vos informations sont strictement confidentielles et sécurisées.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="progress">
+        <div class="progress-bar active" id="bar-1"></div>
+        <div class="progress-bar" id="bar-2"></div>
+        <div class="progress-bar" id="bar-3"></div>
+        <div class="progress-bar" id="bar-4"></div>
+      </div>
+      <p class="progress-text" id="progressText">Étape 1 sur 4</p>
+
+      <div id="alertBox"></div>
+
+      <!-- ÉTAPE 1: Infos personnelles -->
+      <div id="step-1" class="step">
+        <h2 class="step-title">1. Vos informations personnelles</h2>
+        <p class="step-desc">Vos coordonnées de base</p>
+        <div class="field">
+          <label>Civilité <span class="required">*</span></label>
+          <select id="civilite">
+            <option value="">Sélectionner...</option>
+            <option value="M">Monsieur</option>
+            <option value="Mme">Madame</option>
+          </select>
+        </div>
+        <div class="row">
+          <div class="field"><label>Prénom <span class="required">*</span></label><input type="text" id="prenom"></div>
+          <div class="field"><label>Nom <span class="required">*</span></label><input type="text" id="nom"></div>
+        </div>
+        <div class="field"><label>Date de naissance <span class="required">*</span></label><input type="date" id="dateNaissance"></div>
+        <div class="field"><label>Lieu de naissance <span class="required">*</span></label><input type="text" id="lieuNaissance" placeholder="Ville, Pays"></div>
+        <div class="field"><label>Nationalité <span class="required">*</span></label><input type="text" id="nationalite"></div>
+        <div class="field"><label>Email <span class="required">*</span></label><input type="email" id="email" placeholder="exemple@email.com"></div>
+        <div class="field"><label>Téléphone <span class="required">*</span></label><input type="tel" id="telephone" placeholder="06 12 34 56 78"></div>
+        <div class="field"><label>Adresse complète <span class="required">*</span></label><input type="text" id="adresseActuelle" placeholder="Numéro et rue"></div>
+        <div class="row-3">
+          <div class="field"><label>Code postal <span class="required">*</span></label><input type="text" id="codePostal"></div>
+          <div class="field"><label>Ville <span class="required">*</span></label><input type="text" id="ville"></div>
+        </div>
+      </div>
+
+      <!-- ÉTAPE 2: Infos taxi/ADS -->
+      <div id="step-2" class="step hidden">
+        <h2 class="step-title">2. Informations taxi 🚖</h2>
+        <p class="step-desc">Vos autorisations et licences professionnelles</p>
+        <div class="field">
+          <label>Numéro ADS (Autorisation de Stationnement) <span class="required">*</span></label>
+          <input type="text" id="numeroADS" placeholder="Ex: 12345">
+        </div>
+        <div class="field">
+          <label>Ville de l'ADS <span class="required">*</span></label>
+          <input type="text" id="villeADS" placeholder="Ex: Paris, Aulnay-sous-Bois...">
+        </div>
+        <div class="field">
+          <label>Date d'attribution de l'ADS <span class="required">*</span></label>
+          <input type="date" id="dateADS">
+        </div>
+        <div class="field">
+          <label>Numéro de carte professionnelle taxi <span class="required">*</span></label>
+          <input type="text" id="numCartePro">
+        </div>
+        <div class="field">
+          <label>Date de validité carte professionnelle <span class="required">*</span></label>
+          <input type="date" id="dateValiditeCartePro">
+        </div>
+        <div class="field">
+          <label>Numéro permis de conduire <span class="required">*</span></label>
+          <input type="text" id="numPermis">
+        </div>
+        <div class="field">
+          <label>Date de délivrance du permis <span class="required">*</span></label>
+          <input type="date" id="dateDelivrancePermis">
+        </div>
+        <div class="field">
+          <label>Date de début d'activité souhaitée <span class="required">*</span></label>
+          <input type="date" id="dateDebut">
+        </div>
+      </div>
+
+      <!-- ÉTAPE 3: Données fiscales personnelles -->
+      <div id="step-3" class="step hidden">
+        <h2 class="step-title">3. Accès impots.gouv personnel</h2>
+        <p class="step-desc">Pour le suivi de vos déclarations</p>
+        <div class="step-info">
+          🔒 <strong>Confidentialité totale :</strong> Ces informations sont chiffrées et utilisées uniquement par notre cabinet pour gérer vos obligations fiscales personnelles.
+        </div>
+        <div class="field">
+          <label>Numéro fiscal personnel <span class="required">*</span></label>
+          <input type="text" id="numeroFiscal" placeholder="13 chiffres (sur votre avis d'imposition)">
+        </div>
+        <div class="field">
+          <label>Mot de passe impots.gouv.fr <span class="required">*</span></label>
+          <div class="password-wrapper">
+            <input type="password" id="motDePasse">
+            <button type="button" class="toggle-password" onclick="togglePassword()">👁️</button>
+          </div>
+        </div>
+        <div class="field">
+          <label>Numéro de Sécurité Sociale <span class="required">*</span></label>
+          <input type="text" id="numSecu" placeholder="15 chiffres">
+        </div>
+        <div class="field">
+          <label>Situation familiale <span class="required">*</span></label>
+          <select id="situationFamiliale">
+            <option value="">Sélectionner...</option>
+            <option value="celibataire">Célibataire</option>
+            <option value="marie">Marié(e)</option>
+            <option value="pacs">Pacsé(e)</option>
+            <option value="divorce">Divorcé(e)</option>
+            <option value="veuf">Veuf/Veuve</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Nombre d'enfants à charge</label>
+          <input type="number" id="nbEnfants" min="0" value="0">
+        </div>
+      </div>
+
+      <!-- ÉTAPE 4: Validation finale -->
+      <div id="step-4" class="step hidden">
+        <h2 class="step-title">4. Récapitulatif & Validation ✅</h2>
+        <p class="step-desc">Vérifiez vos informations avant l'envoi</p>
+        <div class="step-info">
+          📨 <strong>Prochaine étape :</strong> Après validation, votre dossier sera transmis à notre cabinet à l'adresse <strong>contact@cleproconseil.com</strong>.<br><br>
+          📎 <strong>Vos pièces justificatives :</strong> Un <strong>lien sécurisé</strong> vous sera envoyé par email pour déposer vos documents (carte d'identité, carte pro taxi, attestation ADS, permis, justificatif de domicile, RIB, etc.).<br><br>
+          📞 Notre équipe vous contactera sous <strong>48h</strong>.
+        </div>
+        <div id="recapBox" class="summary">
+          <h3>👤 Votre dossier</h3>
+          <ul id="recapList"></ul>
+        </div>
+        <div class="field" style="margin-top: 18px;">
+          <label style="display: flex; align-items: flex-start; gap: 8px; cursor: pointer;">
+            <input type="checkbox" id="consent" style="width: auto; margin-top: 3px;">
+            <span style="font-size: 13px; line-height: 1.5; font-weight: 500;">
+              Je certifie l'exactitude des informations fournies et j'autorise <strong>Clé Pro Conseil</strong> à les utiliser pour la gestion de mon dossier d'auto-entrepreneur. <span class="required">*</span>
+            </span>
+          </label>
+        </div>
+      </div>
+
+      <div class="buttons">
+        <button class="btn-prev" id="btnPrev" onclick="prevStep()" disabled>← Précédent</button>
+        <button class="btn-next" id="btnNext" onclick="nextStep()">Suivant →</button>
+        <button class="btn-submit hidden" id="btnSubmit" onclick="submitForm()">✓ Valider mon dossier</button>
+      </div>
+    </div>
+
+    <p class="footer">
+      <strong>Clé Pro Conseil</strong> — Cabinet de gestion d'affaires des entreprises<br>
+      📧 contact@cleproconseil.com<br>
+      <br>
+      🔒 Vos données sont chiffrées et envoyées de manière sécurisée.
+    </p>
+  </div>
+
+  <script>
+    const EMAILJS_PUBLIC_KEY = '5v49csdnNKefYLhIq';
+    const EMAILJS_SERVICE_ID = 'service_bwjufk9';
+    const EMAILJS_TEMPLATE_ADMIN = 'template_t5q38y8';
+    const EMAILJS_TEMPLATE_CLIENT = 'template_btkzg5w';
+    const ADMIN_EMAIL = 'contact@cleproconseil.com';
+
+    emailjs.init(EMAILJS_PUBLIC_KEY);
+    let currentStep = 1;
+    const TOTAL_STEPS = 4;
+    const uploadedFiles = {};
+
+    const FIELD_IDS = ['civilite','prenom','nom','dateNaissance','lieuNaissance','nationalite','email','telephone','adresseActuelle','codePostal','ville','numeroADS','villeADS','dateADS','numCartePro','dateValiditeCartePro','numPermis','dateDelivrancePermis','dateDebut','numeroFiscal','motDePasse','numSecu','situationFamiliale','nbEnfants'];
+
+    window.onload = () => {
+      const saved = localStorage.getItem('autoEntrepreneurTaxi');
+      if (saved) {
+        const data = JSON.parse(saved);
+        Object.keys(data).forEach(key => {
+          const el = document.getElementById(key);
+          if (el) el.value = data[key] || '';
+        });
+      }
+    };
+
+    document.addEventListener('input', () => {
+      const data = {};
+      FIELD_IDS.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) data[id] = el.value;
+      });
+      localStorage.setItem('autoEntrepreneurTaxi', JSON.stringify(data));
+    });
+
+    function togglePassword() {
+      const pwd = document.getElementById('motDePasse');
+      pwd.type = pwd.type === 'password' ? 'text' : 'password';
+    }
+
+    function handleFile(docType) {
+      const input = document.getElementById('file-' + docType);
+      const zone = document.getElementById('zone-' + docType);
+      const text = document.getElementById('text-' + docType);
+      if (input.files && input.files[0]) {
+        const file = input.files[0];
+        uploadedFiles[docType] = { name: file.name, size: file.size };
+        zone.classList.add('has-file');
+        zone.classList.remove('error');
+        text.textContent = '✓ ' + file.name;
+        updateSummary();
+      }
+    }
+
+    function updateSummary() {
+      const list = document.getElementById('docSummary');
+      const items = Object.entries(uploadedFiles);
+      if (items.length === 0) {
+        list.innerHTML = '<li><em>Aucun document uploadé pour le moment</em></li>';
+      } else {
+        list.innerHTML = items.map(([k, f]) => '<li>✓ ' + f.name + '</li>').join('');
+      }
+    }
+
+    function showAlert(message, type) {
+      const box = document.getElementById('alertBox');
+      box.innerHTML = '<div class="alert alert-' + type + '">' + message + '</div>';
+      window.scrollTo(0, 0);
+      if (type === 'success') setTimeout(() => box.innerHTML = '', 8000);
+    }
+
+    function clearErrors() {
+      document.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
+      document.querySelectorAll('.error-msg').forEach(el => el.remove());
+    }
+
+    function setError(id, message) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.classList.add('error');
+        const msg = document.createElement('div');
+        msg.className = 'error-msg';
+        msg.textContent = message;
+        el.parentNode.appendChild(msg);
+      }
+    }
+
+    function validateStep(step) {
+      clearErrors();
+      let valid = true;
+      const required = {
+        1: ['civilite','prenom','nom','dateNaissance','lieuNaissance','nationalite','email','telephone','adresseActuelle','codePostal','ville'],
+        2: ['numeroADS','villeADS','dateADS','numCartePro','dateValiditeCartePro','numPermis','dateDelivrancePermis','dateDebut'],
+        3: ['numeroFiscal','motDePasse','numSecu','situationFamiliale'],
+        4: []
+      };
+      required[step].forEach(field => {
+        const el = document.getElementById(field);
+        if (!el.value.trim()) { setError(field, 'Obligatoire'); valid = false; }
+      });
+      if (step === 1) {
+        const email = document.getElementById('email').value;
+        if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          setError('email', 'Email invalide'); valid = false;
+        }
+      }
+      if (step === 4) {
+        const consent = document.getElementById('consent').checked;
+        if (!consent) {
+          showAlert('Veuillez cocher la case de certification pour valider votre dossier', 'error');
+          valid = false;
+        }
+      }
+      return valid;
+    }
+
+    function showStep(step) {
+      document.querySelectorAll('.step').forEach((el, i) => el.classList.toggle('hidden', (i + 1) !== step));
+      for (let s = 1; s <= TOTAL_STEPS; s++) {
+        document.getElementById('bar-' + s).classList.toggle('active', s <= step);
+      }
+      document.getElementById('progressText').textContent = 'Étape ' + step + ' sur ' + TOTAL_STEPS;
+      document.getElementById('btnPrev').disabled = step === 1;
+      document.getElementById('btnNext').classList.toggle('hidden', step === TOTAL_STEPS);
+      document.getElementById('btnSubmit').classList.toggle('hidden', step !== TOTAL_STEPS);
+      if (step === TOTAL_STEPS) generateRecap();
+      window.scrollTo(0, 0);
+    }
+
+    function generateRecap() {
+      const v = id => document.getElementById(id).value || '—';
+      const docs = Object.values(uploadedFiles).map(f => f.name).join(', ') || 'aucun';
+      const list = document.getElementById('recapList');
+      list.innerHTML = ''
+        + '<li><strong>Nom :</strong> ' + v('civilite') + ' ' + v('prenom') + ' ' + v('nom') + '</li>'
+        + '<li><strong>Email :</strong> ' + v('email') + '</li>'
+        + '<li><strong>Téléphone :</strong> ' + v('telephone') + '</li>'
+        + '<li><strong>Adresse :</strong> ' + v('adresseActuelle') + ', ' + v('codePostal') + ' ' + v('ville') + '</li>'
+        + '<li><strong>ADS :</strong> N°' + v('numeroADS') + ' (' + v('villeADS') + ')</li>'
+        + '<li><strong>Carte pro taxi :</strong> ' + v('numCartePro') + '</li>'
+        + '<li><strong>Activité :</strong> Chauffeur de taxi</li>';
+    }
+
+    function nextStep() {
+      if (validateStep(currentStep)) { currentStep++; showStep(currentStep); }
+    }
+
+    function prevStep() { currentStep--; showStep(currentStep); }
+
+    async function submitForm() {
+      if (!validateStep(4)) return;
+      const btn = document.getElementById('btnSubmit');
+      btn.disabled = true;
+      btn.textContent = '⏳ Envoi en cours...';
+
+      const v = id => document.getElementById(id).value;
+      const data = {
+        client_name: v('nom'),
+        client_prenom: v('prenom'),
+        client_civilite: v('civilite'),
+        client_email: v('email'),
+        client_telephone: v('telephone'),
+        client_dateNaissance: v('dateNaissance'),
+        client_lieuNaissance: v('lieuNaissance'),
+        client_nationalite: v('nationalite'),
+        client_adresseActuelle: v('adresseActuelle'),
+        client_codePostal: v('codePostal'),
+        client_ville: v('ville'),
+        client_numeroADS: v('numeroADS'),
+        client_villeADS: v('villeADS'),
+        client_dateADS: v('dateADS'),
+        client_numCartePro: v('numCartePro'),
+        client_dateValiditeCartePro: v('dateValiditeCartePro'),
+        client_numPermis: v('numPermis'),
+        client_dateDelivrancePermis: v('dateDelivrancePermis'),
+        client_dateDebut: v('dateDebut'),
+        client_numeroFiscal: v('numeroFiscal'),
+        client_motDePasse: v('motDePasse'),
+        client_numSecu: v('numSecu'),
+        client_situationFamiliale: v('situationFamiliale'),
+        client_nbEnfants: v('nbEnfants'),
+        client_activite: 'Chauffeur de taxi',
+        client_secteur: 'Transport - Taxi',
+        client_revenuPrevu: 'Non renseigné',
+        documents_info: 'À transmettre via lien sécurisé qui sera envoyé par email'
+      };
+
+      try {
+        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ADMIN, { ...data, to_email: ADMIN_EMAIL });
+        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_CLIENT, { ...data, to_email: data.client_email });
+        showAlert('✅ Votre dossier a été envoyé avec succès ! Vous recevrez un email de confirmation à ' + data.client_email + '. L\'\u00e9quipe Clé Pro Conseil vous contactera sous 48h.', 'success');
+        setTimeout(() => { localStorage.removeItem('autoEntrepreneurTaxi'); location.reload(); }, 6000);
+      } catch (error) {
+        console.error('Erreur:', error);
+        showAlert('❌ Erreur lors de l\'envoi du dossier. Veuillez réessayer ou contacter le cabinet à contact@cleproconseil.com', 'error');
+        btn.disabled = false;
+        btn.textContent = '✓ Valider mon dossier';
+      }
+    }
+  </script>
+</body>
+</html>
